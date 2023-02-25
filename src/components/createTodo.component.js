@@ -16,8 +16,8 @@ class CreateTodo extends React.Component {
   
     handleSubmit(event) {
         const { title, description, status, from, to } = this.state
-        fetch("http://127.0.0.1:8000/api/todo",{
-            method: 'POST',
+        fetch("https://zyco.nl/api/store_tasks",{
+            method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
