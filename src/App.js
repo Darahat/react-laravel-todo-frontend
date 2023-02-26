@@ -4,7 +4,6 @@ import CreateTodo from './components/createTodo.component';
 // import EditTodo from './components/editTodo.component';
 import './App.css';
 
-
 function App() {
   return (
     <Router>

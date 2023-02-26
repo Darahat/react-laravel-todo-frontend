@@ -1,10 +1,10 @@
 import React from 'react';
-import {useNavigate } from 'react-router-dom';
+// import {useNavigate } from 'react-router-dom';
 
 class CreateTodo extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {title:'', description:'', status:'', from:'', to:''};
+      this.state = {title:'', description:'', status:'', start_date:'', end_date:''};
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,18 +15,22 @@ class CreateTodo extends React.Component {
     }
   
     handleSubmit(event) {
-        const { title, description, status, from, to } = this.state
+        const { title, description, status, start_date, end_date } = this.state
         fetch("https://zyco.nl/api/store_tasks",{
-            method: 'GET',
+            method: 'POST',
             headers: {
-                'Content-type': 'application/json; charset=UTF-8',
+              'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+    'Access-Control-Allow-Headers': 'Content-Type',
             },
             body: JSON.stringify({
                 title: title,
                 description: description,
                 status: status,
-                from: from,
-                to: to
+                start_date: start_date,
+                end_date: end_date
             }),
            
         }
@@ -36,7 +40,8 @@ class CreateTodo extends React.Component {
             this.setState({
                 isLoaded: true,
             });
-            console.log(result);
+          console.log(result);
+          
         },
         (error) => {
             this.setState({
@@ -46,7 +51,7 @@ class CreateTodo extends React.Component {
         }
 )
       event.preventDefault();
-      this.props.navigate('/');
+      // this.props.navigate('/');
     }
   
     render() {
@@ -67,20 +72,20 @@ class CreateTodo extends React.Component {
               </label>
               <label>
             From:
-            <input type="Date" name="from" value={this.state.from} onChange={this.handleChange} />
+            <input type="Date" name="start_date" value={this.state.start_date} onChange={this.handleChange} />
               </label>
               <label>
             To:/
-            <input type="Date" name="to" value={this.state.to} onChange={this.handleChange} />
+            <input type="Date" name="end_date" value={this.state.end_date} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
         </form>
       );
     }
 }
-function WithNavigate(props) {
-  let navigate = useNavigate();
-      return <CreateTodo {...props} navigate={navigate} />
-    }
+// function WithNavigate(props) {
+//   let navigate = useNavigate();
+//       return <CreateTodo {...props} navigate={navigate} />
+//     }
  
-export default WithNavigate;
+export default CreateTodo;
