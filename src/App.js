@@ -1,16 +1,16 @@
  import { Routes, Route,Link, BrowserRouter as Router  } from 'react-router-dom';
 import TodoList from './components/list.component';
 import CreateTodo from './components/createTodo.component';
+import ResponsiveAppBar from './components/Toolbar.component';
 // import EditTodo from './components/editTodo.component';
 import './App.css';
-
 
 function App() {
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
+        <ResponsiveAppBar>
+        <ul>
             <li>
               <Link to="/">Todo List</Link>
             </li>
@@ -19,7 +19,10 @@ function App() {
             </li>
              
           </ul>
-        </nav>
+      </ResponsiveAppBar>
+   
+         
+         
         <Routes>
           <Route path="/" element={<TodoList />} />
           <Route path="/create" element={<CreateTodo />} />

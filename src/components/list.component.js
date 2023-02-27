@@ -1,73 +1,83 @@
-import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoaded: false,
+      tasks: [],
+      error: null
+    };
+  }
 
-const TodoList = () => {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    const apiUrl = 'https://zyco.nl/api/all_tasks/';
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
-    fetch(apiUrl)
-    .then(response => response.json())
-      .then(data => console.log(data));
-    
-  //   axios.get(proxyUrl + apiUrl, {
-  //     headers: {
-  //       'X-Requested-With': 'XMLHttpRequest'
-  //     }
-  //   })
-  //     .then(res => res.json())
-  //     .then(
-  //       (result) => {
-  //         setIsLoaded(true);
-  //         setTodos(result);
-  //       },
-  //       (error) => {
-  //         setIsLoaded(true);
-  //         setError(error);
-  //       }
-  //     )
-  }, []);
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {todos.map(todo => (
-            <tr key={todo.id}>
-              <td>{todo.id}</td>
-              <td>{todo.title}</td>
-              <td>{todo.description}</td>
-              <td>{todo.status}</td>
-              <td>{todo.from}</td>
-              <td>{todo.to}</td>
-              <td><button> <Link to={{ pathname: "/edit/" + todo.id }}>Edit</Link></button></td>
-              <td><button onClick={() => this.delTodo(todo.id)}> &nbsp; Delete</button></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  componentDidMount() {
+    fetch("https://zyco.nl/api/all_tasks")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            tasks: result.data
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
     );
+  }
+
+  render() {
+
+    const { error, isLoaded, tasks } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else if (!Array.isArray(tasks)) {
+      return <div>tasks is not an array</div>;
+    } else {
+      return (
+        <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">ID</TableCell>
+            <TableCell align="center">Title</TableCell>
+            <TableCell align="center">Description</TableCell>
+            <TableCell align="center">Status</TableCell>
+                <TableCell align="center">Start Date</TableCell>
+                <TableCell align="center">End Date</TableCell>
+
+          </TableRow>
+            </TableHead>
+            <TableBody>
+            
+            {tasks.map(todo => (
+              <TableRow key={todo.id}>
+                <TableCell align="center">{todo.id}</TableCell>
+                <TableCell align="center">{todo.title}</TableCell>
+                <TableCell align="center">{todo.description}</TableCell>
+                <TableCell align="center">{todo.status}</TableCell>
+                <TableCell align="center">{todo.start_date}</TableCell>
+                <TableCell align="center">{todo.end_date}</TableCell>
+              </TableRow>
+            ))}
+            </TableBody>
+            </Table>
+
+            </TableContainer>
+            
+      );
+    }
   }
 }
 
