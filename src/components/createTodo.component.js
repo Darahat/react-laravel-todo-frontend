@@ -37,7 +37,7 @@ const CreateTodoForm = () => {
     .then(data => console.log(data))
     .catch(error => console.error(error));
   };
-   this.props.navigate('/')
+  //  this.props.navigate('/')
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8, display: 'flex', justifyContent: 'center' }}>
