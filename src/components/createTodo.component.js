@@ -5,13 +5,15 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-
+import { useNavigate } from 'react-router-dom';
+ 
 const CreateTodoForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const navigate = useNavigate();
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -33,12 +35,17 @@ const CreateTodoForm = () => {
       },
       body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-  };
-  //  this.props.navigate('/')
-  return (
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        navigate('/');
+
+      }
+    )
+      .catch(error => console.error(error));
+    
+   };
+   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8, display: 'flex', justifyContent: 'center' }}>
         <Card>
@@ -101,5 +108,9 @@ const CreateTodoForm = () => {
     </Container>
   );
 };
+// function WithNavigate(props) {
+//   let navigate = useNavigate();
+//   return <CreateTodoForm  {...props} navigate={navigate}/>
+// }
 
 export default CreateTodoForm;

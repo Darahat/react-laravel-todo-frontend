@@ -2,7 +2,7 @@
 import TodoList from './components/list.component';
 import CreateTodo from './components/createTodo.component';
 import ResponsiveAppBar from './components/Toolbar.component';
-// import EditTodo from './components/editTodo.component';
+import EditTodo from './components/editTodo.component';
 import './App.css';
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<TodoList />} />
           <Route path="/create" element={<CreateTodo />} />
-          {/* <Route path="/edit/:id" element={<EditTodo />} /> */}
+          <Route path="/edit/:id" element={<EditTodo />} />
           <Route path="/todo/del" element={<CreateTodo />} />
         </Routes>
       </div>

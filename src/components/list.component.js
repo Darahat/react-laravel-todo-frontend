@@ -1,11 +1,7 @@
 import React from "react";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
+
+ import { Table, Button, TableBody, TableCell, TableContainer, TableHead, TableRow,Paper } from "@mui/material";
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +11,27 @@ class TodoList extends React.Component {
       error: null
     };
   }
-
+  delTask(id) {
+    console.log(id);
+    fetch('https://zyco.nl/api/del_task/' + id, {
+      method: 'DELETE',
+      header: {
+        'Content-Type': 'application/json'
+      },
+    }).then(res => res.json())
+      .then((result) => {
+        console.log(result);
+        if (result.data === 1) { // check if the task was successfully deleted
+          // update state to remove the deleted task
+          this.setState(prevState => ({
+            tasks: prevState.tasks.filter(task => task.id !== id)
+          }));
+        }
+    }, (error) => {
+      console.log(error);
+    }
+      )
+}
   componentDidMount() {
     fetch("https://zyco.nl/api/all_tasks")
       .then(res => res.json())
@@ -56,6 +72,12 @@ class TodoList extends React.Component {
             <TableCell align="center">Status</TableCell>
                 <TableCell align="center">Start Date</TableCell>
                 <TableCell align="center">End Date</TableCell>
+                <TableCell align="center">
+                Edit
+                </TableCell>
+                <TableCell align="center">
+                Delete
+                </TableCell>
 
           </TableRow>
             </TableHead>
@@ -69,6 +91,8 @@ class TodoList extends React.Component {
                 <TableCell align="center">{todo.status}</TableCell>
                 <TableCell align="center">{todo.start_date}</TableCell>
                 <TableCell align="center">{todo.end_date}</TableCell>
+                <TableCell align="center"><Link style={{ textDecoration: 'none' }} to={{pathname:"/edit/"+todo.id}}><Button variant="contained" >Edit</Button> </Link> </TableCell>
+                <TableCell align="center"><Button variant="contained" color="error" onClick={()=>this.delTask(todo.id)}>Delete</Button> </TableCell>
               </TableRow>
             ))}
             </TableBody>

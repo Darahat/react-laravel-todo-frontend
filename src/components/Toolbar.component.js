@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,14 +14,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+  
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+ 
+ 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -36,8 +39,13 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const navigate = useNavigate();
 
+  const handleClick = (route) => {
+    navigate(route);
+  };
   return (
+   
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -57,7 +65,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            My Agenda
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -91,7 +99,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  to="/create"
+                   
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -116,32 +124,16 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-                  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                      <Button>
-                      <Link
-               to="/create"
-                
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                  Create                
-
-              </Link>
-                      </Button>
-                      <Button>
-                      <Link
-               to="/"
-                
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                  Todo List               
-
-              </Link> 
-                      </Button>
-
-                    
-
-               
-           </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                <Button  onClick={()=>handleClick('/create')} sx={{ my: 2, color: 'white', display: 'block' }}>
+                    Create
+                </Button>
+     
+              <Button  onClick={()=>handleClick('/')} sx={{ my: 2, color: 'white', display: 'block' }}>
+                    List
+                </Button>
+       
+          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
