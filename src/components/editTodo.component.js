@@ -14,8 +14,7 @@ const EditTodoForm = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
     const { id } = useParams();
-    const [book, setBook] = useState([]);
-  const navigate = useNavigate();
+   const navigate = useNavigate();
 
   useEffect(() => {
       fetch(`https://zyco.nl/api/edit_task/${id}`)
